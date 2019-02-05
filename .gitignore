@@ -3,6 +3,8 @@
 
 local.properties
 
+.gradle/
+
 # Compiled class file
 *.class
 

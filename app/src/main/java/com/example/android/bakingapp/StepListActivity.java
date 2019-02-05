@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.dummy.DummyContent;
+import com.example.android.bakingapp.utils.NetUtils;
 
 import java.util.List;
 
@@ -38,6 +41,18 @@ public class StepListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
+
+        NetUtils.request(getString(R.string.data_url), new NetUtils.Response() {
+            @Override
+            public void onData(@Nullable String response) {
+                Log.e("DATA RECEIVED:", response);
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("ERROR OCCURRED:", message);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
