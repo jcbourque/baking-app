@@ -1,5 +1,7 @@
 package com.example.android.bakingapp.utils;
 
+import android.util.Log;
+
 import com.example.android.bakingapp.data.Ingredient;
 import com.example.android.bakingapp.data.Recipe;
 import com.example.android.bakingapp.data.Step;
@@ -8,10 +10,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class JsonUtils {
+    private static final String TAG = "JsonUtils";
+
     private JsonUtils() { /* This class is not intended to be instantiated */ }
 
-    public static Ingredient parseIngredient(String json) {
+    public static List<Recipe> parseRecipes(String json) {
+        List<Recipe> recipes = new ArrayList<>();
+
+        try {
+            JSONArray data = new JSONArray(json);
+
+            for (int i = 0; i < data.length(); i++) {
+                recipes.add(parseRecipe(data.optString(i)));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "parseRecipes: Failed to parse", e);
+        }
+
+        return recipes;
+    }
+
+    private static Ingredient parseIngredient(String json) {
         Ingredient ingredient;
 
         try {
@@ -22,14 +45,15 @@ public final class JsonUtils {
             ingredient.setName(data.optString("ingredient"));
             ingredient.setQuantity(data.optInt("quantity"));
             ingredient.setUnit(data.optString("measure"));
-        } catch (JSONException ignore) {
+        } catch (JSONException e) {
+            Log.e(TAG, "parseIngredient: Failed to parse", e);
             ingredient = null;
         }
 
         return ingredient;
     }
 
-    public static Recipe parseRecipe(String json) {
+    private static Recipe parseRecipe(String json) {
         Recipe recipe;
 
         try {
@@ -57,14 +81,15 @@ public final class JsonUtils {
                     recipe.addStep(parseStep(results.optString(i)));
                 }
             }
-        } catch (JSONException ignore) {
+        } catch (JSONException e) {
+            Log.e(TAG, "parseRecipe: Failed to parse", e);
             recipe = null;
         }
 
         return recipe;
     }
 
-    public static Step parseStep(String json) {
+    private static Step parseStep(String json) {
         Step step;
 
         try {
@@ -77,7 +102,8 @@ public final class JsonUtils {
             step.setDescription("description");
             step.setVideoURL("videoURL");
             step.setThumbnailURL("thumbnailURL");
-        } catch (JSONException ignore) {
+        } catch (JSONException e) {
+            Log.e(TAG, "parseStep: Failed to parse", e);
             step = null;
         }
 

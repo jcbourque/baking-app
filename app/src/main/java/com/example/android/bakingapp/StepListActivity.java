@@ -8,6 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.android.bakingapp.data.Recipe;
+import com.example.android.bakingapp.utils.JsonUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
@@ -45,7 +48,8 @@ public class StepListActivity extends AppCompatActivity {
         NetUtils.request(getString(R.string.data_url), new NetUtils.Response() {
             @Override
             public void onData(@Nullable String response) {
-                Log.e("DATA RECEIVED:", response);
+                List<Recipe> recipes = JsonUtils.parseRecipes(response);
+                Log.e("DATA RECEIVED:", recipes.toString());
             }
 
             @Override
