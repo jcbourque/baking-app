@@ -1,5 +1,6 @@
 package com.example.android.bakingapp.utils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
@@ -58,6 +59,6 @@ public final class NetUtils {
 
     public interface Response {
         void onData(@Nullable String response);
-        void onError(String message);
+        void onError(@NonNull String message);
     }
 }
