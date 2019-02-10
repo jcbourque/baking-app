@@ -2,8 +2,12 @@
     <string name="app_name">Baking App</string>
     <string name="title_step_list">Steps</string>
     <string name="title_step_detail">Step Detail</string>
+    <string name="recipe_image">Recipe Image</string>
+    <string name="servings">serves %1$d</string>
 
     <!--Constants-->
+    <string name="bundle_key_recipe" translatable="false">bundleRecipe</string>
+    <string name="bundle_key_recipes" translatable="false">bundleRecipes</string>
     <string name="data_url" translatable="false">
         https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json
     </string>

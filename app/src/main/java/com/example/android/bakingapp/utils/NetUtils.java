@@ -1,5 +1,7 @@
 package com.example.android.bakingapp.utils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -17,6 +19,7 @@ public final class NetUtils {
     private NetUtils() { /* This class is not intended to be instantiated */ }
 
     public static void request(String endpoint, final Response response) {
+        Log.e(NetUtils.class.getSimpleName(), "request: FETCHING DATA FROM THE NET");
         if (response != null) {
             final URL url;
 
@@ -27,30 +30,27 @@ public final class NetUtils {
                 return;
             }
 
-            AppExecutors.instance().networkIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    HttpURLConnection urlConnection = null;
+            AppExecutors.instance().networkIO().execute(() -> {
+                HttpURLConnection urlConnection = null;
 
-                    try {
-                        Socket sock = new Socket();
+                try {
+                    Socket sock = new Socket();
 
-                        sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
-                        sock.close();
+                    sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
+                    sock.close();
 
-                        urlConnection = (HttpURLConnection) url.openConnection();
-                        InputStream in = urlConnection.getInputStream();
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = urlConnection.getInputStream();
 
-                        Scanner scanner = new Scanner(in);
-                        scanner.useDelimiter("\\A");
+                    Scanner scanner = new Scanner(in);
+                    scanner.useDelimiter("\\A");
 
-                        response.onData(scanner.hasNext() ? scanner.next() : null);
-                    } catch (IOException e) {
-                        response.onError(e.getMessage());
-                    } finally {
-                        if (urlConnection != null) {
-                            urlConnection.disconnect();
-                        }
+                    response.onData(scanner.hasNext() ? scanner.next() : null);
+                } catch (IOException e) {
+                    response.onError(e.getMessage());
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
                     }
                 }
             });

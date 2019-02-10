@@ -53,7 +53,7 @@ public class StepListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(String message) {
+            public void onError(@NonNull String message) {
                 Log.e("ERROR OCCURRED:", message);
             }
         });
