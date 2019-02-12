@@ -3,41 +3,33 @@ package com.example.android.bakingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
-import com.example.android.bakingapp.data.Recipe;
-import com.example.android.bakingapp.utils.JsonUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.bakingapp.data.Recipe;
 import com.example.android.bakingapp.dummy.DummyContent;
-import com.example.android.bakingapp.utils.NetUtils;
+import com.example.android.bakingapp.ui.RecipeDetailFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-/**
- * An activity representing a list of Steps. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link StepDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
-public class StepListActivity extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindString;
+import butterknife.ButterKnife;
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
+// TODO: Media Player Fragment Needed
+
+public class StepListActivity extends AppCompatActivity {
+    @BindString(R.string.bundle_key_recipe) String recipeBundleKey;
+
+    private Recipe recipe;
     private boolean mTwoPane;
 
     @Override
@@ -45,24 +37,36 @@ public class StepListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
 
-        NetUtils.request(getString(R.string.data_url), new NetUtils.Response() {
-            @Override
-            public void onData(@Nullable String response) {
-                List<Recipe> recipes = JsonUtils.parseRecipes(response);
-                Log.e("DATA RECEIVED:", recipes.toString());
-            }
+        ButterKnife.bind(this);
 
-            @Override
-            public void onError(@NonNull String message) {
-                Log.e("ERROR OCCURRED:", message);
-            }
-        });
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
+        recipe = getIntent().getParcelableExtra(recipeBundleKey);
+
+        if (recipe == null) {
+            closeOnError();
+            return;
+        }
+
+        setTitle(recipe.getName());
+
+        RecipeDetailFragment fragment = new RecipeDetailFragment();
+        fragment.setRecipe(recipe);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.recipe_steps_container, fragment)
+                .commit();
+
+/*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +74,7 @@ public class StepListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+*/
 
         if (findViewById(R.id.step_detail_container) != null) {
             // The detail container view will be present only in the
@@ -79,9 +84,9 @@ public class StepListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.step_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+//        View recyclerView = findViewById(R.id.step_list);
+//        assert recyclerView != null;
+//        setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -155,5 +160,10 @@ public class StepListActivity extends AppCompatActivity {
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
+    }
+
+    private void closeOnError() {
+        Toast.makeText(this, R.string.no_recipe, Toast.LENGTH_LONG).show();
+        finish();
     }
 }

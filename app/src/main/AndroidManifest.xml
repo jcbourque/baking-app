@@ -11,27 +11,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".StepListActivity"
-            android:label="@string/title_step_list"
-            android:theme="@style/AppTheme.NoActionBar">
 
-        </activity>
         <activity
-            android:name=".StepDetailActivity"
-            android:label="@string/title_step_detail"
-            android:parentActivityName=".StepListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.bakingapp.StepListActivity" />
-        </activity>
-        <activity android:name=".MainActivity">
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.RecipeActivity"
+            android:label="@string/title_step_list"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.bakingapp.ui.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".StepListActivity"
+            android:label="@string/title_step_list"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.bakingapp.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".StepDetailActivity"
+            android:label="@string/title_step_detail"
+            android:parentActivityName=".StepListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.bakingapp.StepListActivity" />
         </activity>
     </application>
 

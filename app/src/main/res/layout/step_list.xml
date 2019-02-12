@@ -2,13 +2,10 @@
 <androidx.recyclerview.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/step_list"
     android:name="com.example.android.bakingapp.StepListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".StepListActivity"
-    tools:listitem="@layout/step_list_content" />
+    android:layout_marginLeft="@dimen/fab_margin"
+    android:layout_marginRight="@dimen/fab_margin"
+    app:layoutManager="LinearLayoutManager" />

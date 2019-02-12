@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_radius"
+    android:layout_margin="@dimen/margin_normal"
+    app:cardBackgroundColor="@color/colorPrimaryLight"
+    app:cardElevation="@dimen/card_elevation" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_large" >
+
+        <ImageView
+            android:id="@+id/step_image_view"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="@dimen/image_height"
+            android:contentDescription="@string/step_image"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_space"
+            android:text="@string/bullet"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/step_short_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

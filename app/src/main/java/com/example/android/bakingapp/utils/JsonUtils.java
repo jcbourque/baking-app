@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public final class JsonUtils {
     private static final String TAG = "JsonUtils";
 
@@ -98,15 +100,25 @@ public final class JsonUtils {
             step = new Step();
 
             step.setId(data.optInt("id"));
-            step.setShortDescription("shortDescription");
-            step.setDescription("description");
-            step.setVideoURL("videoURL");
-            step.setThumbnailURL("thumbnailURL");
+            step.setShortDescription(data.optString("shortDescription"));
+            step.setDescription(data.optString("description"));
+            step.setVideoURL(data.optString("videoURL"));
+            step.setThumbnailURL(data.optString("thumbnailURL"));
+
+            if (step.getVideoURL().isEmpty() && !step.getThumbnailURL().isEmpty() &&
+                    isVideo(step.getThumbnailURL())) {
+                step.setVideoURL(step.getThumbnailURL());
+                step.setThumbnailURL("");
+            }
         } catch (JSONException e) {
             Log.e(TAG, "parseStep: Failed to parse", e);
             step = null;
         }
 
         return step;
+    }
+
+    private static boolean isVideo(@NonNull String url) {
+        return url.toLowerCase().endsWith(".mp4");
     }
 }
