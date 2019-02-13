@@ -24,7 +24,7 @@
 
         <activity
             android:name=".ui.RecipeActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -34,7 +34,6 @@
 
         <activity
             android:name=".ui.InstructionActivity"
-            android:label="@string/title_step_list"
             android:parentActivityName=".ui.RecipeActivity"
             android:theme="@style/AppTheme">
             <meta-data

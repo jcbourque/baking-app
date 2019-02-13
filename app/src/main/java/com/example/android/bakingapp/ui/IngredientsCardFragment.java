@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -25,6 +26,8 @@ import lombok.Setter;
 public class IngredientsCardFragment extends Fragment {
 
     @BindView(R.id.ingredients_list_linear_layout) LinearLayout ingredientsList;
+
+    private Unbinder unbinder;
 
     @Setter
     private List<Ingredient> ingredients;
@@ -38,7 +41,7 @@ public class IngredientsCardFragment extends Fragment {
         CardView root = (CardView) inflater.inflate(R.layout.ingredients_card_fragment,
                 container, false);
 
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         if (ingredients != null && !ingredients.isEmpty()) {
             for (Ingredient ingredient : ingredients) {
@@ -64,5 +67,14 @@ public class IngredientsCardFragment extends Fragment {
         }
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 }

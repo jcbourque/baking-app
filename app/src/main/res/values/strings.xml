@@ -1,17 +1,15 @@
 <resources>
     <string name="app_name">Prestidigious Baketorium</string>
-    <string name="title_step_list">Steps</string>
-    <string name="title_step_detail">Step Detail</string>
     <string name="recipe_image">Recipe Image</string>
     <string name="step_image">Recipe Step Image</string>
     <string name="servings">serves %1$d</string>
     <string name="no_recipe">Unable to locate recipe</string>
     <string name="ingredients">Ingredients</string>
-    <string name="bullet" translatable="false">•</string>
     <string name="previous">Snap! Go Back</string>
-    <string name="next">Continue</string>
+    <string name="next">Now What?</string>
 
     <!--Constants-->
+    <string name="bullet" translatable="false">•</string>
     <string name="bundle_key_recipe" translatable="false">bundleRecipe</string>
     <string name="bundle_key_recipes" translatable="false">bundleRecipes</string>
     <string name="bundle_key_step_index" translatable="false">bundleStepIndex</string>

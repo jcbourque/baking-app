@@ -7,19 +7,23 @@
     android:background="@color/colorShadow" >
 
     <Button
+        android:id="@+id/navigation_bar_previous_button"
         android:layout_width="@dimen/size_weighted"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="@dimen/text_size_normal"
         android:text="@string/previous"
+        android:onClick="onPrevious"
         style="?android:buttonBarButtonStyle" />
 
     <Button
+        android:id="@+id/navigation_bar_next_button"
         android:layout_width="@dimen/size_weighted"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="@dimen/text_size_normal"
         android:text="@string/next"
+        android:onClick="onNext"
         style="?android:buttonBarButtonStyle" />
 
 </LinearLayout>

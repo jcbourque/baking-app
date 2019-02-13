@@ -12,11 +12,18 @@
         android:layout_height="@dimen/size_weighted"
         android:layout_weight="1" />
 
-    <FrameLayout
-        android:id="@+id/recipe_step_instructions_container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_weighted"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_margin="@dimen/margin_normal">
+
+        <FrameLayout
+            android:id="@+id/recipe_step_instructions_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
 
     <include layout="@layout/navigation_bar" />
 
