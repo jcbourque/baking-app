@@ -12,6 +12,8 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.data.Ingredient;
 import com.example.android.bakingapp.data.Recipe;
 import com.example.android.bakingapp.data.Step;
+import com.example.android.bakingapp.listeners.StepClickListener;
+import com.example.android.bakingapp.listeners.StepSelectionListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,7 +26,8 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StepClickListener {
+
     private static final int INGREDIENTS = 0;
     private static final int STEP = 1;
 
@@ -32,14 +35,16 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Nullable @BindView(R.id.step_image_view) ImageView stepImage;
     @Nullable @BindView(R.id.step_short_description_text_view) TextView shortDescription;
 
+    private final StepSelectionListener stepSelectionListener;
     private final LayoutInflater layoutInflater;
 
     @Getter
     @Setter
     private Recipe recipe;
 
-    public DetailAdapter(Context context, Recipe recipe) {
+    public DetailAdapter(Context context, Recipe recipe, StepSelectionListener stepSelectionListener) {
         this.recipe = recipe;
+        this.stepSelectionListener = stepSelectionListener;
 
         layoutInflater = LayoutInflater.from(context);
     }
@@ -55,7 +60,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return new IngredientsViewHolder(view);
             case STEP:
             default:
-                return new StepViewHolder(view);
+                return new StepViewHolder(view, this);
         }
     }
 
@@ -137,6 +142,13 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case STEP:
             default:
                 return R.layout.step;
+        }
+    }
+
+    @Override
+    public void onStepClick(View view, int position) {
+        if (stepSelectionListener != null) {
+            stepSelectionListener.onStepSelected(recipe, position - 1);
         }
     }
 }

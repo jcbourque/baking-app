@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.data.Recipe;
+import com.example.android.bakingapp.listeners.RecipeClickListener;
+import com.example.android.bakingapp.listeners.RecipeSelectionListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

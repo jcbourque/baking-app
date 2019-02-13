@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.StepListActivity;
 import com.example.android.bakingapp.adapter.RecipeAdapter;
-import com.example.android.bakingapp.adapter.RecipeSelectionListener;
 import com.example.android.bakingapp.data.Recipe;
+import com.example.android.bakingapp.listeners.RecipeSelectionListener;
 import com.example.android.bakingapp.utils.AppExecutors;
 import com.example.android.bakingapp.utils.JsonUtils;
 import com.example.android.bakingapp.utils.NetUtils;

@@ -22,9 +22,8 @@ import lombok.Setter;
 
 @NoArgsConstructor
 public class RecipeDetailFragment extends Fragment {
-//    @BindView(R.id.ingredient_list) LinearLayout ingredients;
+
     @BindView(R.id.recipe_step_list) RecyclerView steps;
-//    @BindView(R.id.ingredients_text_view) TextView ingredientsLabel;
 
     @Setter
     private Recipe recipe;
@@ -52,12 +51,8 @@ public class RecipeDetailFragment extends Fragment {
                         unit.setText(ingredient.getUnit().toLowerCase());
                     }
                     name.setText(ingredient.getName());
-
-//                    ingredients.addView(ingredientLayout);
                 }
             }
-        } else {
-//            ingredientsLabel.setText(R.string.no_recipe);
         }
 
         return root;
