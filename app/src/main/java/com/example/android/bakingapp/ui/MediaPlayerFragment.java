@@ -66,6 +66,8 @@ public class MediaPlayerFragment extends Fragment {
                 Picasso.get().load(thumbnailUrl).into(imageView);
             }
         } else {
+            imageView.setVisibility(View.GONE);
+            
             Uri uri = Uri.parse(videoUrl);
 
             simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context);
