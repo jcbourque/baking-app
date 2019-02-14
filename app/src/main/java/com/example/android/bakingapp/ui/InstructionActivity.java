@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -70,7 +69,8 @@ public class InstructionActivity extends AppCompatActivity {
         displayNavigationButtonsAsNeeded();
 
         MediaPlayerFragment mediaPlayerFragment = new MediaPlayerFragment();
-        mediaPlayerFragment.setUrl(step.getVideoURL());
+        mediaPlayerFragment.setVideoUrl(step.getVideoURL());
+        mediaPlayerFragment.setThumbnailUrl(step.getThumbnailURL());
 
         RecipeStepInstructionsFragment instructionsFragment = new RecipeStepInstructionsFragment();
         instructionsFragment.setInstructions(step.getDescription());
@@ -128,7 +128,8 @@ public class InstructionActivity extends AppCompatActivity {
         displayNavigationButtonsAsNeeded();
 
         MediaPlayerFragment mediaPlayerFragment = new MediaPlayerFragment();
-        mediaPlayerFragment.setUrl(step.getVideoURL());
+        mediaPlayerFragment.setVideoUrl(step.getVideoURL());
+        mediaPlayerFragment.setThumbnailUrl(step.getThumbnailURL());
 
         RecipeStepInstructionsFragment instructionsFragment = new RecipeStepInstructionsFragment();
         instructionsFragment.setInstructions(step.getDescription());
@@ -141,16 +142,20 @@ public class InstructionActivity extends AppCompatActivity {
     }
 
     private boolean restoreSavedState(Bundle savedState) {
+        int value = 0;
+
         if (savedState != null) {
             if (savedState.containsKey(bundleKeyRecipe)) {
                 recipe = savedState.getParcelable(bundleKeyRecipe);
+                value++;
             }
 
             if (savedState.containsKey(bundleStepIndex)) {
                 stepIndex = savedState.getInt(bundleStepIndex);
+                value++;
             }
         }
 
-        return savedState != null;
+        return value == 2;
     }
 }
