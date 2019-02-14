@@ -67,7 +67,7 @@ public class MediaPlayerFragment extends Fragment {
             }
         } else {
             imageView.setVisibility(View.GONE);
-            
+
             Uri uri = Uri.parse(videoUrl);
 
             simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context);

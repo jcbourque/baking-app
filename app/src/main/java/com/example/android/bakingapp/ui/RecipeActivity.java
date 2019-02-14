@@ -15,6 +15,7 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapter.DetailAdapter;
 import com.example.android.bakingapp.adapter.StepAdapter;
 import com.example.android.bakingapp.data.Recipe;
+import com.example.android.bakingapp.data.Step;
 import com.example.android.bakingapp.listeners.StepSelectionListener;
 
 public class RecipeActivity extends AppCompatActivity implements StepSelectionListener {
@@ -23,6 +24,9 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
     @BindString(R.string.bundle_key_step_index) String bundleStepIndex;
     @BindView(R.id.recipe_detail_recycler_view) RecyclerView recyclerView;
     @Nullable @BindView(R.id.ingredients_card_container) FrameLayout frameLayout;
+    @Nullable @BindView(R.id.media_player_container) FrameLayout mediaPlayerContainer;
+
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,28 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
 
         setTitle(recipe.getName());
 
-        if (frameLayout == null) {
+        twoPane = mediaPlayerContainer != null;
+
+        if (frameLayout == null || twoPane) {
             recyclerView.setAdapter(new DetailAdapter(this, recipe, this));
+
+            if (twoPane) {
+                Step step = recipe.getSteps().get(0);
+
+                MediaPlayerFragment mediaPlayerFragment = new MediaPlayerFragment();
+                mediaPlayerFragment.setVideoUrl(step.getVideoURL());
+                mediaPlayerFragment.setThumbnailUrl(step.getThumbnailURL());
+
+                RecipeStepInstructionsFragment instructionsFragment = new RecipeStepInstructionsFragment();
+                instructionsFragment.setInstructions(step.getDescription());
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.media_player_container, mediaPlayerFragment)
+                        .add(R.id.recipe_step_instructions_container, instructionsFragment)
+                        .commit();
+
+            }
         } else {
             IngredientsCardFragment fragment = new IngredientsCardFragment();
             fragment.setIngredients(recipe.getIngredients());
@@ -52,9 +76,28 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
 
     @Override
     public void onStepSelected(Recipe recipe, int stepIndex) {
-        Intent activity = new Intent(this, InstructionActivity.class);
-        activity.putExtra(bundleKeyRecipe, recipe);
-        activity.putExtra(bundleStepIndex, stepIndex);
-        startActivity(activity);
+        if (twoPane) {
+            replaceFragments(recipe.getSteps().get(stepIndex));
+        } else {
+            Intent activity = new Intent(this, InstructionActivity.class);
+            activity.putExtra(bundleKeyRecipe, recipe);
+            activity.putExtra(bundleStepIndex, stepIndex);
+            startActivity(activity);
+        }
+    }
+
+    private void replaceFragments(Step step) {
+        MediaPlayerFragment mediaPlayerFragment = new MediaPlayerFragment();
+        mediaPlayerFragment.setVideoUrl(step.getVideoURL());
+        mediaPlayerFragment.setThumbnailUrl(step.getThumbnailURL());
+
+        RecipeStepInstructionsFragment instructionsFragment = new RecipeStepInstructionsFragment();
+        instructionsFragment.setInstructions(step.getDescription());
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.media_player_container, mediaPlayerFragment)
+                .replace(R.id.recipe_step_instructions_container, instructionsFragment)
+                .commit();
     }
 }
