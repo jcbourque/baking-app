@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.ui;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,14 @@ import android.widget.TextView;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.data.Ingredient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -25,6 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class IngredientsCardFragment extends Fragment {
 
+    @BindString(R.string.bundle_key_ingredients) String bundleKey;
     @BindView(R.id.ingredients_list_linear_layout) LinearLayout ingredientsList;
 
     private Unbinder unbinder;
@@ -42,6 +46,10 @@ public class IngredientsCardFragment extends Fragment {
                 container, false);
 
         unbinder = ButterKnife.bind(this, root);
+
+        if (savedInstanceState != null) {
+            ingredients = savedInstanceState.getParcelableArrayList(bundleKey);
+        }
 
         if (ingredients != null && !ingredients.isEmpty()) {
             for (Ingredient ingredient : ingredients) {
@@ -76,5 +84,12 @@ public class IngredientsCardFragment extends Fragment {
         if (unbinder != null) {
             unbinder.unbind();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(bundleKey, (ArrayList<? extends Parcelable>) ingredients);
     }
 }

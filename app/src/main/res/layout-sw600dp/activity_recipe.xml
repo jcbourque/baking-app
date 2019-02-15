@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="?android:dividerVertical"
-    android:showDividers="middle"
-    android:dividerPadding="@dimen/margin_normal"
     android:background="@color/colorBackground" >
 
-    <androidx.recyclerview.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recipe_detail_recycler_view"
-        android:layout_width="@dimen/size_weighted"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        app:layout_constraintHorizontal_weight="2"
         android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager" />
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/media_player_container"/>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="@dimen/size_weighted"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:layout_margin="@dimen/margin_normal" >
+    <FrameLayout
+        android:id="@+id/media_player_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="2"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recipe_step_instructions_container"
+        app:layout_constraintStart_toEndOf="@id/recipe_detail_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <FrameLayout
-            android:id="@+id/media_player_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_weighted"
-            android:layout_weight="2" />
+    <FrameLayout
+        android:id="@+id/recipe_step_instructions_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_border"
+        android:layout_margin="@dimen/margin_normal"
+        android:padding="@dimen/margin_normal"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintTop_toBottomOf="@id/media_player_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recipe_detail_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_weighted"
-            android:layout_weight="1"
-            >
-
-            <FrameLayout
-                android:id="@+id/recipe_step_instructions_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </ScrollView>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

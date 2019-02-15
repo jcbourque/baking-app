@@ -44,7 +44,7 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
         if (frameLayout == null || twoPane) {
             recyclerView.setAdapter(new DetailAdapter(this, recipe, this));
 
-            if (twoPane) {
+            if (twoPane && savedInstanceState == null) {
                 Step step = recipe.getSteps().get(0);
 
                 MediaPlayerFragment mediaPlayerFragment = new MediaPlayerFragment();
@@ -62,13 +62,15 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
 
             }
         } else {
-            IngredientsCardFragment fragment = new IngredientsCardFragment();
-            fragment.setIngredients(recipe.getIngredients());
+            if (savedInstanceState == null) {
+                IngredientsCardFragment fragment = new IngredientsCardFragment();
+                fragment.setIngredients(recipe.getIngredients());
 
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.ingredients_card_container, fragment)
-                    .commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.ingredients_card_container, fragment)
+                        .commit();
+            }
 
             recyclerView.setAdapter(new StepAdapter(this, recipe, this));
         }

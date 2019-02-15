@@ -13,6 +13,8 @@
     <string name="bundle_key_recipe" translatable="false">bundleRecipe</string>
     <string name="bundle_key_recipes" translatable="false">bundleRecipes</string>
     <string name="bundle_key_step_index" translatable="false">bundleStepIndex</string>
+    <string name="bundle_key_step_instructions" translatable="false">bundleStepInstructions</string>
+    <string name="bundle_key_ingredients" translatable="false">bundleIngredients</string>
     <string name="bundle_key_url" translatable="false">bundleUrl</string>
     <string name="data_url" translatable="false">
         https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json
