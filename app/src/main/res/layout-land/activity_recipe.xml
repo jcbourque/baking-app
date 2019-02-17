@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/margin_normal"
-    android:background="@color/colorBackground" >
+    android:background="@color/colorBackground">
 
     <ScrollView
+        android:id="@+id/ingredients_scroll_view_wrapper"
         android:layout_width="@dimen/size_weighted"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_height="@dimen/size_weighted"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recipe_detail_recycler_view" >
 
         <FrameLayout
             android:id="@+id/ingredients_card_container"
@@ -24,9 +28,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recipe_detail_recycler_view"
         android:layout_width="@dimen/size_weighted"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="@dimen/size_weighted"
+        app:layout_constraintHorizontal_weight="1"
         android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager" />
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ingredients_scroll_view_wrapper"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

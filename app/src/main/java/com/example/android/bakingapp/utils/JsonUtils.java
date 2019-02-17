@@ -101,7 +101,7 @@ public final class JsonUtils {
 
             step.setId(data.optInt("id"));
             step.setShortDescription(data.optString("shortDescription"));
-            step.setDescription(data.optString("description"));
+            step.setDescription(data.optString("description").replace('�', '°'));
             step.setVideoURL(data.optString("videoURL"));
             step.setThumbnailURL(data.optString("thumbnailURL"));
 

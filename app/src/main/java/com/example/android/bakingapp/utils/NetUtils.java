@@ -1,10 +1,5 @@
 package com.example.android.bakingapp.utils;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -14,12 +9,14 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.Scanner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public final class NetUtils {
 
     private NetUtils() { /* This class is not intended to be instantiated */ }
 
     public static void request(String endpoint, final Response response) {
-        Log.e(NetUtils.class.getSimpleName(), "request: FETCHING DATA FROM THE NET");
         if (response != null) {
             final URL url;
 

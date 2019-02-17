@@ -6,31 +6,37 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.data.Recipe;
 import com.example.android.bakingapp.data.Step;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InstructionActivity extends AppCompatActivity {
+public class InstructionActivity extends AppCompatActivity
+        implements ViewTreeObserver.OnScrollChangedListener {
 
     @BindString(R.string.bundle_key_recipe) String bundleKeyRecipe;
     @BindString(R.string.bundle_key_step_index) String bundleStepIndex;
 
+    @Nullable @BindView(R.id.instruction_activity_scroll_view) ScrollView scrollView;
     @BindView(R.id.media_player_container) FrameLayout mediaPlayerFrameLayout;
     @BindView(R.id.navigation_bar_next_button) Button nextButton;
     @BindView(R.id.navigation_bar_previous_button) Button previousButton;
 
     private Recipe recipe;
     private int stepIndex;
+    private boolean actionBarShown = true;
 
     public void onNext(View view) {
         stepIndex++;
@@ -54,6 +60,10 @@ public class InstructionActivity extends AppCompatActivity {
         }
 
         ButterKnife.bind(this);
+
+        if (scrollView != null) {
+            scrollView.getViewTreeObserver().addOnScrollChangedListener(this);
+        }
 
         if (!restoreSavedState(savedInstanceState)) {
             Intent intent = getIntent();
@@ -84,12 +94,22 @@ public class InstructionActivity extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (actionBar != null) {
                 actionBar.hide();
+                actionBarShown = false;
             }
 
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
             ViewGroup.LayoutParams params = mediaPlayerFrameLayout.getLayoutParams();
             params.height = size.y;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (scrollView != null) {
+            scrollView.getViewTreeObserver().removeOnScrollChangedListener(this);
         }
     }
 
@@ -106,6 +126,28 @@ public class InstructionActivity extends AppCompatActivity {
 
         outState.putParcelable(bundleKeyRecipe, recipe);
         outState.putInt(bundleStepIndex, stepIndex);
+    }
+
+    @Override
+    public void onScrollChanged() {
+        int y = scrollView != null ? scrollView.getScrollY() : 0;
+
+        if (y == 0 && actionBarShown) {
+            ActionBar actionBar = getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.hide();
+            }
+
+            actionBarShown = false;
+        } else if (y > 0 && !actionBarShown) {
+            ActionBar actionBar = getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.show();
+                actionBarShown = true;
+            }
+        }
     }
 
     private void displayNavigationButtonsAsNeeded() {

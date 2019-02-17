@@ -1,7 +1,6 @@
 package com.example.android.bakingapp.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RecipeStepInstructionsFragment extends Fragment {
 
-    private static final String TAG = "RecipeStepInstructionsFragment";
-
     @BindString(R.string.bundle_key_step_instructions) String bundleKey;
 
     @Setter
@@ -38,15 +35,11 @@ public class RecipeStepInstructionsFragment extends Fragment {
         ButterKnife.bind(root);
 
         if (savedInstanceState != null) {
-            Log.d(TAG, "onCreateView: Restoring instructions: " + instructions);
             instructions = savedInstanceState.getString(bundleKey, instructions);
         }
 
         if (instructions != null) {
-            Log.d(TAG, "onCreateView: Setting instructions: " + instructions);
             root.setText(instructions);
-        } else {
-            Log.d(TAG, "onCreateView: I have no instructions!!!");
         }
 
         return root;
@@ -56,7 +49,6 @@ public class RecipeStepInstructionsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Log.d(TAG, "onSaveInstanceState: Saving instructions: " + instructions);
         outState.putString(bundleKey, instructions);
     }
 }
