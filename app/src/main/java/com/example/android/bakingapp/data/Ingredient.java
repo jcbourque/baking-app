@@ -3,19 +3,23 @@ package com.example.android.bakingapp.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class Ingredient implements Parcelable {
+    @SerializedName("ingredient")
     private String name;
-    private int quantity;
+    private double quantity;
+    @SerializedName("measure")
     private String unit;
 
     protected Ingredient(Parcel in) {
         name = in.readString();
-        quantity = in.readInt();
+        quantity = in.readDouble();
         unit = in.readString();
     }
 
@@ -39,7 +43,7 @@ public class Ingredient implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeInt(quantity);
+        dest.writeDouble(quantity);
         dest.writeString(unit);
     }
 }

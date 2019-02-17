@@ -28,6 +28,18 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
     private boolean twoPane;
 
     @Override
+    public void onStepSelected(Recipe recipe, int stepIndex) {
+        if (twoPane) {
+            replaceFragments(recipe, stepIndex);
+        } else {
+            Intent activity = new Intent(this, InstructionActivity.class);
+            activity.putExtra(bundleKeyRecipe, recipe);
+            activity.putExtra(bundleStepIndex, stepIndex);
+            startActivity(activity);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
@@ -38,17 +50,18 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
         Recipe recipe = getIntent().getParcelableExtra(bundleKeyRecipe);
         setTitle(recipe.getName());
 
+        recyclerView.setAdapter(new StepAdapter(this, recipe, this));
+
         if (savedInstanceState != null) {
-            recyclerView.setAdapter(new StepAdapter(this, recipe, this));
             return;
-        }
+       }
 
         IngredientsCardFragment fragment = new IngredientsCardFragment();
         fragment.setIngredients(recipe.getIngredients());
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.ingredients_card_container, fragment)
+                .replace(R.id.ingredients_card_container, fragment)
                 .commit();
 
         if (twoPane) {
@@ -63,23 +76,9 @@ public class RecipeActivity extends AppCompatActivity implements StepSelectionLi
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.media_player_container, mediaPlayerFragment)
-                    .add(R.id.recipe_step_instructions_container, instructionsFragment)
+                    .replace(R.id.media_player_container, mediaPlayerFragment)
+                    .replace(R.id.recipe_step_instructions_container, instructionsFragment)
                     .commit();
-        }
-
-        recyclerView.setAdapter(new StepAdapter(this, recipe, this));
-    }
-
-    @Override
-    public void onStepSelected(Recipe recipe, int stepIndex) {
-        if (twoPane) {
-            replaceFragments(recipe, stepIndex);
-        } else {
-            Intent activity = new Intent(this, InstructionActivity.class);
-            activity.putExtra(bundleKeyRecipe, recipe);
-            activity.putExtra(bundleStepIndex, stepIndex);
-            startActivity(activity);
         }
     }
 

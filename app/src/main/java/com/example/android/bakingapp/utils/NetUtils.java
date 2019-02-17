@@ -17,13 +17,17 @@ public final class NetUtils {
     private NetUtils() { /* This class is not intended to be instantiated */ }
 
     public static void request(String endpoint, final Response response) {
+        request(endpoint, Response.NO_ID, response);
+    }
+
+    public static void request(String endpoint, final int recipeId, final Response response) {
         if (response != null) {
             final URL url;
 
             try {
                 url = new URL(endpoint);
             } catch (MalformedURLException e) {
-                response.onError(e.getMessage());
+                response.onError(e.getMessage(), recipeId);
                 return;
             }
 
@@ -42,9 +46,9 @@ public final class NetUtils {
                     Scanner scanner = new Scanner(in);
                     scanner.useDelimiter("\\A");
 
-                    response.onData(scanner.hasNext() ? scanner.next() : null);
+                    response.onData(scanner.hasNext() ? scanner.next() : null, recipeId);
                 } catch (IOException e) {
-                    response.onError(e.getMessage());
+                    response.onError(e.getMessage(), recipeId);
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
@@ -55,7 +59,9 @@ public final class NetUtils {
     }
 
     public interface Response {
-        void onData(@Nullable String response);
-        void onError(@NonNull String message);
+        int NO_ID = -1;
+
+        void onData(@Nullable String response, int recipeId);
+        void onError(@NonNull String message, int recipeId);
     }
 }
